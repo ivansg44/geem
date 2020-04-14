@@ -113,6 +113,17 @@ def get_col_components(col, exp):
 
 def map_col(col_components, exp):
     """TODO: document function"""
+    compiled_exp = re.compile(parsing_exps[exp]['exp'], re.IGNORECASE)
+
+    # Iterate over parameters in ``exp``.
+    # e.g., ``month_mm``, ``day_dd``, ``year_yy``
+    for expected_component in compiled_exp.groupindex.keys():
+        # Raise an error if a parameter is missing from
+        # ``col_components``.
+        if expected_component not in col_components:
+            msg = 'This column type cannot be converted into ' + exp
+            raise argparse.ArgumentTypeError(msg)
+
     return []
 
 

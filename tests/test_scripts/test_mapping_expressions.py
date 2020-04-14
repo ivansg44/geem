@@ -2,6 +2,7 @@
 
 """Tests ``mapping_expressions.py``."""
 
+import argparse
 import unittest
 
 from scripts import mapping_expressions
@@ -301,6 +302,22 @@ class TestGetColComponents(unittest.TestCase):
         }
         actual = mapping_expressions.get_col_components(col, 'boolean yes/no')
         self.assertDictEqual(expected, actual)
+
+
+class TestMapCol(unittest.TestCase):
+    def test_incorrect_components(self):
+        col_components = {
+            'foo': [
+                '1', '10', '11', '19', '30'
+            ],
+            'bar': [
+                '20', '21', '29', '31'
+            ]
+        }
+        self.assertRaises(
+            argparse.ArgumentTypeError,
+            mapping_expressions.map_col, col_components, 'day - integer'
+        )
 
 
 if __name__ == '__main__':
