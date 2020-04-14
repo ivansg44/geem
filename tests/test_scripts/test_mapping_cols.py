@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 
-"""Tests ``mapping_expressions.py``."""
+"""Tests ``mapping_cols.py``."""
 
 import argparse
 import unittest
 
-from scripts import mapping_expressions
+from scripts import mapping_cols
 
 
 class TestGetColComponents(unittest.TestCase):
-    parsing_exps = mapping_expressions.get_parsing_exps()
+    parsing_exps = mapping_cols.get_parsing_exps()
 
     def test_empty_col(self):
         col = []
         parsing_exp = self.parsing_exps['day - integer']
         expected = {'day_int': []}
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_case_insensitivity(self):
@@ -28,7 +28,7 @@ class TestGetColComponents(unittest.TestCase):
                 'mOn'
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_day_integer(self):
@@ -43,7 +43,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, '30', None, '31', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_day_2_digit(self):
@@ -58,7 +58,7 @@ class TestGetColComponents(unittest.TestCase):
                 '19', '20', None, '30', None, '31', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
         self.assertDictEqual(expected, actual)
 
@@ -72,7 +72,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, None, '1', '2', '7', None, None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_weekday_3_char(self):
@@ -85,7 +85,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, 'mon', 'wed', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_weekday_word(self):
@@ -98,7 +98,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, 'monday', 'wednesday', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_month_integer(self):
@@ -113,7 +113,7 @@ class TestGetColComponents(unittest.TestCase):
                 '12', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
         self.assertDictEqual(expected, actual)
 
@@ -129,7 +129,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, '11', None, '12', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_month_3_char(self):
@@ -142,7 +142,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, 'jan', 'may', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_month_word(self):
@@ -155,7 +155,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, 'january', 'may', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_year_4_digit(self):
@@ -168,7 +168,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, None, None, None, '1111', '0000', '9999', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_year_2_digit(self):
@@ -181,7 +181,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, None, '11', '22', '00', '99', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_date_iso_8601(self):
@@ -216,7 +216,7 @@ class TestGetColComponents(unittest.TestCase):
                 '29', '30', '31', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_date_mm_dd_yy(self):
@@ -250,7 +250,7 @@ class TestGetColComponents(unittest.TestCase):
                 '31', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_integer(self):
@@ -263,7 +263,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, '1', '11', '0', '9', '090', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_decimal(self):
@@ -280,7 +280,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, None, None, '.1', '.1', '.11', '.0', '.9', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_boolean_1_0(self):
@@ -293,7 +293,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, '1', '0', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_boolean_y_n(self):
@@ -306,7 +306,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, 'y', 'n', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
     def test_boolean_yes_no(self):
@@ -319,7 +319,7 @@ class TestGetColComponents(unittest.TestCase):
                 None, None, 'yes', 'no', None
             ]
         }
-        actual = mapping_expressions.get_col_components(col, parsing_exp)
+        actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
 
@@ -335,7 +335,7 @@ class TestMapCol(unittest.TestCase):
         }
         self.assertRaises(
             argparse.ArgumentTypeError,
-            mapping_expressions.map_col, col_components, 'day - integer'
+            mapping_cols.map_col, col_components, 'day - integer'
         )
 
 
