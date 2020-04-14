@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
-"""Tests ``parsing_expressions.py``."""
+"""Tests ``mapping_expressions.py``."""
 
 import unittest
 
-from scripts import parsing_expressions
+from scripts import mapping_expressions
 
 
 class TestParsingExpressions(unittest.TestCase):
     def test_empty_col(self):
         col = []
         expected = {'day_int': []}
-        actual = parsing_expressions.main('day - integer', col)
+        actual = mapping_expressions.get_col_components(col, 'day - integer')
         self.assertDictEqual(expected, actual)
 
     def test_case_insensitivity(self):
@@ -23,7 +23,8 @@ class TestParsingExpressions(unittest.TestCase):
                 'mOn'
             ]
         }
-        actual = parsing_expressions.main('weekday - 3 char', col)
+        actual = \
+            mapping_expressions.get_col_components(col, 'weekday - 3 char')
         self.assertDictEqual(expected, actual)
 
     def test_day_integer(self):
@@ -37,7 +38,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, '30', None, '31', None
             ]
         }
-        actual = parsing_expressions.main('day - integer', col)
+        actual = mapping_expressions.get_col_components(col, 'day - integer')
         self.assertDictEqual(expected, actual)
 
     def test_day_2_digit(self):
@@ -51,7 +52,7 @@ class TestParsingExpressions(unittest.TestCase):
                 '19', '20', None, '30', None, '31', None
             ]
         }
-        actual = parsing_expressions.main('day - 2 digit', col)
+        actual = mapping_expressions.get_col_components(col, 'day - 2 digit')
         self.assertDictEqual(expected, actual)
         self.assertDictEqual(expected, actual)
 
@@ -64,7 +65,8 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, None, '1', '2', '7', None, None
             ]
         }
-        actual = parsing_expressions.main('weekday - integer', col)
+        actual = \
+            mapping_expressions.get_col_components(col, 'weekday - integer')
         self.assertDictEqual(expected, actual)
 
     def test_weekday_3_char(self):
@@ -76,7 +78,8 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, 'mon', 'wed', None
             ]
         }
-        actual = parsing_expressions.main('weekday - 3 char', col)
+        actual = \
+            mapping_expressions.get_col_components(col, 'weekday - 3 char')
         self.assertDictEqual(expected, actual)
 
     def test_weekday_word(self):
@@ -88,7 +91,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, 'monday', 'wednesday', None
             ]
         }
-        actual = parsing_expressions.main('weekday - word', col)
+        actual = mapping_expressions.get_col_components(col, 'weekday - word')
         self.assertDictEqual(expected, actual)
 
     def test_month_integer(self):
@@ -102,7 +105,7 @@ class TestParsingExpressions(unittest.TestCase):
                 '12', None
             ]
         }
-        actual = parsing_expressions.main('month - integer', col)
+        actual = mapping_expressions.get_col_components(col, 'month - integer')
         self.assertDictEqual(expected, actual)
         self.assertDictEqual(expected, actual)
 
@@ -117,7 +120,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, '11', None, '12', None
             ]
         }
-        actual = parsing_expressions.main('month - 2 digit', col)
+        actual = mapping_expressions.get_col_components(col, 'month - 2 digit')
         self.assertDictEqual(expected, actual)
 
     def test_month_3_char(self):
@@ -129,7 +132,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, 'jan', 'may', None
             ]
         }
-        actual = parsing_expressions.main('month - 3 char', col)
+        actual = mapping_expressions.get_col_components(col, 'month - 3 char')
         self.assertDictEqual(expected, actual)
 
     def test_month_word(self):
@@ -141,7 +144,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, 'january', 'may', None
             ]
         }
-        actual = parsing_expressions.main('month - word', col)
+        actual = mapping_expressions.get_col_components(col, 'month - word')
         self.assertDictEqual(expected, actual)
 
     def test_year_4_digit(self):
@@ -153,7 +156,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, None, None, None, '1111', '0000', '9999', None
             ]
         }
-        actual = parsing_expressions.main('year - 4 digit', col)
+        actual = mapping_expressions.get_col_components(col, 'year - 4 digit')
         self.assertDictEqual(expected, actual)
 
     def test_year_2_digit(self):
@@ -165,7 +168,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, None, '11', '22', '00', '99', None
             ]
         }
-        actual = parsing_expressions.main('year - 2 digit', col)
+        actual = mapping_expressions.get_col_components(col, 'year - 2 digit')
         self.assertDictEqual(expected, actual)
 
     def test_date_iso_8601(self):
@@ -199,7 +202,7 @@ class TestParsingExpressions(unittest.TestCase):
                 '29', '30', '31', None
             ]
         }
-        actual = parsing_expressions.main('date - iso 8601', col)
+        actual = mapping_expressions.get_col_components(col, 'date - iso 8601')
         self.assertDictEqual(expected, actual)
 
     def test_date_mm_dd_yy(self):
@@ -232,7 +235,7 @@ class TestParsingExpressions(unittest.TestCase):
                 '31', None
             ]
         }
-        actual = parsing_expressions.main('date - mm/dd/yy', col)
+        actual = mapping_expressions.get_col_components(col, 'date - mm/dd/yy')
         self.assertDictEqual(expected, actual)
 
     def test_integer(self):
@@ -244,7 +247,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, '1', '11', '0', '9', '090', None
             ]
         }
-        actual = parsing_expressions.main('integer', col)
+        actual = mapping_expressions.get_col_components(col, 'integer')
         self.assertDictEqual(expected, actual)
 
     def test_decimal(self):
@@ -260,7 +263,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, None, None, '.1', '.1', '.11', '.0', '.9', None
             ]
         }
-        actual = parsing_expressions.main('decimal', col)
+        actual = mapping_expressions.get_col_components(col, 'decimal')
         self.assertDictEqual(expected, actual)
 
     def test_boolean_1_0(self):
@@ -272,7 +275,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, '1', '0', None
             ]
         }
-        actual = parsing_expressions.main('boolean 1/0', col)
+        actual = mapping_expressions.get_col_components(col, 'boolean 1/0')
         self.assertDictEqual(expected, actual)
 
     def test_boolean_y_n(self):
@@ -284,7 +287,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, 'y', 'n', None
             ]
         }
-        actual = parsing_expressions.main('boolean y/n', col)
+        actual = mapping_expressions.get_col_components(col, 'boolean y/n')
         self.assertDictEqual(expected, actual)
 
     def test_boolean_yes_no(self):
@@ -296,7 +299,7 @@ class TestParsingExpressions(unittest.TestCase):
                 None, None, 'yes', 'no', None
             ]
         }
-        actual = parsing_expressions.main('boolean yes/no', col)
+        actual = mapping_expressions.get_col_components(col, 'boolean yes/no')
         self.assertDictEqual(expected, actual)
 
 

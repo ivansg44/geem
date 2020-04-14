@@ -93,7 +93,7 @@ parsing_exps = {
 }
 
 
-def main(exp, col):
+def get_col_components(col, exp):
     """TODO: document function"""
     compiled_exp = re.compile(parsing_exps[exp]['exp'], re.IGNORECASE)
 
@@ -111,9 +111,14 @@ def main(exp, col):
     return col_components
 
 
+def main(args_):
+    col_components = get_col_components(args_.col, args_.exp)
+    return col_components
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('expression', choices=parsing_exps.keys())
     parser.add_argument('column', nargs='*')
     args = parser.parse_args()
-    main(args.expression, args.column)
+    main(args)
