@@ -111,14 +111,22 @@ def get_col_components(col, exp):
     return col_components
 
 
+def map_col(col_components, exp):
+    """TODO: document function"""
+    return []
+
+
 def main(args_):
-    col_components = get_col_components(args_.col, args_.exp)
+    col_components = get_col_components(args_.column, args_.parsing_expression)
+    if args_.mapping_expression:
+        return map_col(col_components, args_.mapping_expression)
     return col_components
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('expression', choices=parsing_exps.keys())
+    parser.add_argument('parsing_expression', choices=parsing_exps.keys())
     parser.add_argument('column', nargs='*')
+    parser.add_argument('--mapping_expression', choices=parsing_exps.keys())
     args = parser.parse_args()
     main(args)

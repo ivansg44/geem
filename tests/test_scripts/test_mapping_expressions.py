@@ -7,7 +7,7 @@ import unittest
 from scripts import mapping_expressions
 
 
-class TestParsingExpressions(unittest.TestCase):
+class TestGetColComponents(unittest.TestCase):
     def test_empty_col(self):
         col = []
         expected = {'day_int': []}
