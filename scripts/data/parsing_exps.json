@@ -1,0 +1,78 @@
+{
+  "day - integer": {
+    "exp": "^(?P<day_int>[1-9]|[12][0-9]|30|31)$",
+    "unit": "day",
+    "unit_uri": "UO_0000033"
+  },
+  "day - 2 digit": {
+    "exp": "^(?P<day_dd>0[1-9]|[12][0-9]|30|31)$",
+    "unit": "day",
+    "unit_uri": "UO_0000033"
+  },
+  "weekday - integer": {
+    "exp": "^(?P<weekday_int>[1-7])$",
+    "unit": "day",
+    "unit_uri": "UO_0000033"
+  },
+  "weekday - 3 char": {
+    "exp": "^(?P<weekday_abbr>(mon|tue|wed|thu|fri|sat|sun))$",
+    "unit": "day",
+    "unit_uri": "UO_0000033"
+  },
+  "weekday - word": {
+    "exp": "^(?P<weekday_word>(monday|tuesday|wednesday|thursday|friday|saturday|sunday))$",
+    "unit": "day",
+    "unit_uri": "UO_0000033"
+  },
+  "month - integer": {
+    "exp": "^(?P<month_int>[1-9]|10|11|12)$",
+    "unit": "month",
+    "unit_uri": "UO_0000035"
+  },
+  "month - 2 digit": {
+    "exp": "^(?P<month_mm>0[1-9]|10|11|12)$",
+    "unit": "month",
+    "unit_uri": "UO_0000035"
+  },
+  "month - 3 char": {
+    "exp": "^(?P<month_abbr>(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))$",
+    "unit": "month",
+    "unit_uri": "UO_0000035"
+  },
+  "month - word": {
+    "exp": "^(?P<month_word>(january|february|march|april|may|june|july|august|september|october|november|december))$",
+    "unit": "month",
+    "unit_uri": "UO_0000035"
+  },
+  "year - 4 digit": {
+    "exp": "^(?P<year_yyyy>\\d{4})$",
+    "unit": "yea",
+    "unit_uri": "UO_0000036"
+  },
+  "year - 2 digit": {
+    "exp": "^(?P<year_yy>\\d\\d)$",
+    "unit": "yea",
+    "unit_uri": "UO_0000036"
+  },
+  "date - iso 8601": {
+    "exp": "^(?P<year_yyyy>\\d{4})-(?P<month_mm>0[1-9]|10|11|12)-(?P<day_dd>0[1-9]|[12][0-9]|30|31)$"
+  },
+  "date - mm/dd/yy": {
+    "exp": "^(?P<month_mm>0[1-9]|10|11|12)/(?P<day_dd>0[1-9]|[12][0-9]|30|31)/(?P<year_yy>\\d\\d)$"
+  },
+  "integer": {
+    "exp": "^(?P<integer>\\d+)$"
+  },
+  "decimal": {
+    "exp": "^(?P<integer>\\d+)(?P<fractional>\\.\\d+)$"
+  },
+  "boolean 1/0": {
+    "exp": "^(?P<boolean_10>[01])$"
+  },
+  "boolean y/n": {
+    "exp": "^(?P<boolean_yn>[yn])$"
+  },
+  "boolean yes/no": {
+    "exp": "^(?P<boolean_yes_no>yes|no)$"
+  }
+}
