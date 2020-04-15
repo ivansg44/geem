@@ -8,6 +8,7 @@ import re
 import os
 
 from definitions import BASE_DIR
+from scripts import synthesis_exps
 
 
 def get_parsing_exps():
@@ -27,9 +28,9 @@ def parse_args(parsing_exps):
     return parser.parse_args()
 
 
-def get_col_components(col, parsing_exp):
+def get_col_components(col, parsing_exp_dict):
     """TODO: document function"""
-    compiled_exp = re.compile(parsing_exp['exp'], re.IGNORECASE)
+    compiled_exp = re.compile(parsing_exp_dict['exp'], re.IGNORECASE)
 
     # e.g. ``{'month_mm': [], 'day_dd': [], 'year_yy': []}``
     col_components = {x: [] for x in compiled_exp.groupindex}
@@ -45,30 +46,29 @@ def get_col_components(col, parsing_exp):
     return col_components
 
 
-def map_col(col_components, exp):
+def map_col(col_components, mapping_exp, parsing_exp):
     """TODO: document function"""
-    # compiled_exp = re.compile(parsing_exps[exp]['exp'], re.IGNORECASE)
-    #
-    # # Iterate over parameters in ``exp``.
-    # # e.g., ``month_mm``, ``day_dd``, ``year_yy``
-    # for expected_component in compiled_exp.groupindex.keys():
-    #     # Raise an error if a parameter is missing from
-    #     # ``col_components``.
-    #     if expected_component not in col_components:
-    #         msg = 'This column type cannot be converted into ' + exp
-    #         raise argparse.ArgumentTypeError(msg)
+    try:
+        mapping_fn = synthesis_exps.dispatcher[mapping_exp][parsing_exp]
+    except KeyError:
+        msg = parsing_exp + ' cannot be converted into ' + mapping_exp
+        raise argparse.ArgumentTypeError(msg)
 
-    return []
+    return mapping_fn(col_components)
 
 
 def main():
     parsing_exps = get_parsing_exps()
     args = parse_args(parsing_exps)
+    parsing_exp = args.parsing_expression
+    mapping_exp = args.mapping_expression
 
     col_components = \
-        get_col_components(args.column, parsing_exps[args.parsing_expression])
-    if args.mapping_expression:
-        return map_col(col_components, args.mapping_expression)
+        get_col_components(args.column, parsing_exps[parsing_exp])
+    if mapping_exp:
+        if parsing_exp == mapping_exp:
+            return args.column
+        return map_col(col_components, mapping_exp, parsing_exp)
     return col_components
 
 
