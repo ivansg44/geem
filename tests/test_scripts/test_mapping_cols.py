@@ -2,7 +2,6 @@
 
 """Tests ``mapping_cols.py``."""
 
-import argparse
 import unittest
 
 from scripts import mapping_cols
@@ -323,36 +322,9 @@ class TestGetColComponents(unittest.TestCase):
         self.assertDictEqual(expected, actual)
 
 
-class TestMapCol(unittest.TestCase):
-    def test_incompatible_exps(self):
-        col_components = {
-            'ham': [
-                '1', '10', '11', '19', '30'
-            ],
-            'spam': [
-                '20', '21', '29', '31'
-            ]
-        }
-        self.assertRaises(
-            argparse.ArgumentTypeError,
-            mapping_cols.map_col, col_components, 'day - integer', 'eggs'
-        )
-
-    def test_day_integer_from_day_2_digit(self):
-        col_components = {
-            'day_dd': [
-                None, None, None, None, '01', '02', '09', None, '10', '11',
-                '19', '20', None, '30', None, '31', None
-            ]
-        }
-        mapping_exp = 'day - integer'
-        parsing_exp = 'day - 2 digit'
-        expected = [
-            None, None, None, None, '1', '2', '9', None, '10', '11', '19',
-            '20', None, '30', None, '31', None
-        ]
-        actual = mapping_cols.map_col(col_components, mapping_exp, parsing_exp)
-        self.assertEqual(expected, actual)
+class TestCreateCol(unittest.TestCase):
+    def test_stub(self):
+        self.assertTrue(False)
 
 
 if __name__ == '__main__':

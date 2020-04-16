@@ -8,7 +8,6 @@ import re
 import os
 
 from definitions import BASE_DIR
-from scripts import synthesis_exps
 
 
 def get_parsing_exps():
@@ -19,12 +18,20 @@ def get_parsing_exps():
         return json.load(fp)
 
 
-def parse_args(parsing_exps):
+def get_synthesis_exps():
+    """TODO: document function"""
+    synthesis_exps_json_path = \
+        os.path.join(BASE_DIR, 'scripts', 'data', 'synthesis_exps.json')
+    with open(synthesis_exps_json_path) as fp:
+        return json.load(fp)
+
+
+def parse_args(parsing_exps, synthesis_exps):
     """TODO: document function"""
     parser = argparse.ArgumentParser()
     parser.add_argument('parsing_expression', choices=parsing_exps.keys())
     parser.add_argument('column', nargs='*')
-    parser.add_argument('--mapping_expression', choices=parsing_exps.keys())
+    parser.add_argument('--mapping_expression', choices=synthesis_exps.keys())
     return parser.parse_args()
 
 
@@ -46,29 +53,33 @@ def get_col_components(col, parsing_exp_dict):
     return col_components
 
 
-def map_col(col_components, mapping_exp, parsing_exp):
+def create_col(col_components, synthesis_exp, col_len):
     """TODO: document function"""
-    try:
-        mapping_fn = synthesis_exps.dispatcher[mapping_exp][parsing_exp]
-    except KeyError:
-        msg = parsing_exp + ' cannot be converted into ' + mapping_exp
-        raise argparse.ArgumentTypeError(msg)
+    def helper(i):
+        mapping = {k: v[i] for k, v in col_components.items()}
+        if None in mapping.values():
+            return None
+        return synthesis_exp.format_map(mapping)
 
-    return mapping_fn(col_components)
+    ret = [helper(i) for i in range(col_len)]
+    return ret
 
 
 def main():
     parsing_exps = get_parsing_exps()
-    args = parse_args(parsing_exps)
+    synthesis_exps = get_synthesis_exps()
+    args = parse_args(parsing_exps, synthesis_exps)
     parsing_exp = args.parsing_expression
     mapping_exp = args.mapping_expression
 
     col_components = \
         get_col_components(args.column, parsing_exps[parsing_exp])
     if mapping_exp:
-        if parsing_exp == mapping_exp:
-            return args.column
-        return map_col(col_components, mapping_exp, parsing_exp)
+        # TODO: map col components
+        # if parsing_exp == mapping_exp:
+        #     return args.column
+        col_len = len(args.column)
+        return create_col(col_components, synthesis_exps[mapping_exp], col_len)
     return col_components
 
 

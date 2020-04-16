@@ -1,0 +1,5 @@
+{
+  "day - integer": "{day_int}",
+  "day - 2 digit": "{day_dd}",
+  "date - mm/dd/yy": "{month_mm}/{day_dd}/{year_yy}"
+}
