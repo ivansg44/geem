@@ -38,25 +38,23 @@ def parse_args(parsing_exps, synthesis_exps):
 def get_col_components(col, parsing_exp_dict):
     """TODO: document function"""
     compiled_exp = re.compile(parsing_exp_dict['exp'], re.IGNORECASE)
+    col_matches = [compiled_exp.match(val) for val in col]
 
     # e.g. ``{'month_mm': [], 'day_dd': [], 'year_yy': []}``
     col_components = {x: [] for x in compiled_exp.groupindex}
 
-    for val in col:
-        match = compiled_exp.match(val)
-        for component in col_components:
-            if match:
-                col_components[component] += [match.group(component)]
-            else:
-                col_components[component] += [None]
+    def helper(k):
+        return [match.group(k) if match else None for match in col_matches]
 
-    return col_components
+    return {k: helper(k) for k, v in col_components.items()}
 
 
 def create_col(col_components, synthesis_exp, col_len):
     """TODO: document function"""
+    col_components_items = col_components.items()
+
     def helper(i):
-        mapping = {k: v[i] for k, v in col_components.items()}
+        mapping = {k: v[i] for k, v in col_components_items}
         if None in mapping.values():
             return None
         return synthesis_exp.format_map(mapping)
