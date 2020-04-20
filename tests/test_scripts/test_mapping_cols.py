@@ -12,7 +12,7 @@ class TestGetColComponents(unittest.TestCase):
 
     def test_empty_col(self):
         col = []
-        parsing_exp = self.parsing_exps['day - integer']
+        parsing_exp = self.parsing_exps['day_int']
         expected = {'day_int': []}
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
@@ -21,7 +21,7 @@ class TestGetColComponents(unittest.TestCase):
         col = [
             'mOn'
         ]
-        parsing_exp = self.parsing_exps['weekday - 3 char']
+        parsing_exp = self.parsing_exps['weekday_abbr']
         expected = {
             'weekday_abbr': [
                 'mOn'
@@ -30,12 +30,12 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_day_integer(self):
+    def test_day_int(self):
         col = [
             '', 'ham', '0', '1', '2', '9', '99', '10', '11', '19', '20',
             '2020', '30', '3030', '31', '3131'
         ]
-        parsing_exp = self.parsing_exps['day - integer']
+        parsing_exp = self.parsing_exps['day_int']
         expected = {
             'day_int': [
                 None, None, None, '1', '2', '9', None, '10', '11', '19', '20',
@@ -45,12 +45,12 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_day_2_digit(self):
+    def test_day_dd(self):
         col = [
             '', 'ham', '1', '0', '01', '02', '09', '0909', '10', '11',
             '19', '20', '2020', '30', '3030', '31', '3131'
         ]
-        parsing_exp = self.parsing_exps['day - 2 digit']
+        parsing_exp = self.parsing_exps['day_dd']
         expected = {
             'day_dd': [
                 None, None, None, None, '01', '02', '09', None, '10', '11',
@@ -61,11 +61,11 @@ class TestGetColComponents(unittest.TestCase):
         self.assertDictEqual(expected, actual)
         self.assertDictEqual(expected, actual)
 
-    def test_weekday_integer(self):
+    def test_weekday_int(self):
         col = [
             '', 'ham', '0', '1', '2', '7', '8', '77'
         ]
-        parsing_exp = self.parsing_exps['weekday - integer']
+        parsing_exp = self.parsing_exps['weekday_int']
         expected = {
             'weekday_int': [
                 None, None, None, '1', '2', '7', None, None
@@ -74,11 +74,11 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_weekday_3_char(self):
+    def test_weekday_abbr(self):
         col = [
             '', 'ham', 'mon', 'wed', 'wedwed'
         ]
-        parsing_exp = self.parsing_exps['weekday - 3 char']
+        parsing_exp = self.parsing_exps['weekday_abbr']
         expected = {
             'weekday_abbr': [
                 None, None, 'mon', 'wed', None
@@ -91,7 +91,7 @@ class TestGetColComponents(unittest.TestCase):
         col = [
             '', 'ham', 'monday', 'wednesday', 'wednesdaywednesday'
         ]
-        parsing_exp = self.parsing_exps['weekday - word']
+        parsing_exp = self.parsing_exps['weekday_word']
         expected = {
             'weekday_word': [
                 None, None, 'monday', 'wednesday', None
@@ -100,12 +100,12 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_month_integer(self):
+    def test_month_int(self):
         col = [
             '', 'ham', '0', '1', '2', '9', '99', '10', '1010', '11', '1111',
             '12', '1212'
         ]
-        parsing_exp = self.parsing_exps['month - integer']
+        parsing_exp = self.parsing_exps['month_int']
         expected = {
             'month_int': [
                 None, None, None, '1', '2', '9', None, '10', None, '11', None,
@@ -116,12 +116,12 @@ class TestGetColComponents(unittest.TestCase):
         self.assertDictEqual(expected, actual)
         self.assertDictEqual(expected, actual)
 
-    def test_month_2_digit(self):
+    def test_month_mm(self):
         col = [
             '', 'ham', '0', '1', '00', '01', '02', '09', '0909', '10', '1010',
             '11', '1111', '12', '1212'
         ]
-        parsing_exp = self.parsing_exps['month - 2 digit']
+        parsing_exp = self.parsing_exps['month_mm']
         expected = {
             'month_mm': [
                 None, None, None, None, None, '01', '02', '09', None, '10',
@@ -131,11 +131,11 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_month_3_char(self):
+    def test_month_abbr(self):
         col = [
             '', 'ham', 'jan', 'may', 'maymay'
         ]
-        parsing_exp = self.parsing_exps['month - 3 char']
+        parsing_exp = self.parsing_exps['month_abbr']
         expected = {
             'month_abbr': [
                 None, None, 'jan', 'may', None
@@ -148,7 +148,7 @@ class TestGetColComponents(unittest.TestCase):
         col = [
             '', 'ham', 'january', 'may', 'maymay'
         ]
-        parsing_exp = self.parsing_exps['month - word']
+        parsing_exp = self.parsing_exps['month_word']
         expected = {
             'month_word': [
                 None, None, 'january', 'may', None
@@ -157,11 +157,11 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_year_4_digit(self):
+    def test_year_yyyy(self):
         col = [
             '', 'ham', '1', '11', '111', '1111', '0000', '9999', '99999'
         ]
-        parsing_exp = self.parsing_exps['year - 4 digit']
+        parsing_exp = self.parsing_exps['year_yyyy']
         expected = {
             'year_yyyy': [
                 None, None, None, None, None, '1111', '0000', '9999', None
@@ -170,11 +170,11 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_year_2_digit(self):
+    def test_year_yy(self):
         col = [
             '', 'ham', '1', '11', '22', '00', '99', '999'
         ]
-        parsing_exp = self.parsing_exps['year - 2 digit']
+        parsing_exp = self.parsing_exps['year_yy']
         expected = {
             'year_yy': [
                 None, None, None, '11', '22', '00', '99', None
@@ -194,7 +194,7 @@ class TestGetColComponents(unittest.TestCase):
             '2222-11-10', '2222-11-19', '2222-11-20', '2222-11-29',
             '2222-11-30', '2222-11-31', '2222-11-32'
         ]
-        parsing_exp = self.parsing_exps['date - iso 8601']
+        parsing_exp = self.parsing_exps['date_iso_8601']
         expected = {
             'year_yyyy': [
                 None, None, '2222', None, None, None, None, None, None, None,
@@ -228,7 +228,7 @@ class TestGetColComponents(unittest.TestCase):
             '11/10/22', '11/19/22', '11/20/22', '11/29/22', '11/30/22',
             '11/31/22', '11/32/22'
         ]
-        parsing_exp = self.parsing_exps['date - mm/dd/yy']
+        parsing_exp = self.parsing_exps['date_mm_dd_yy']
         expected = {
             'year_yy': [
                 None, None, '22', None, None, None, None, None, None, '00',
@@ -282,11 +282,11 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_boolean_1_0(self):
+    def test_boolean_10(self):
         col = [
             '', 'ham', '1', '0', '1 ham'
         ]
-        parsing_exp = self.parsing_exps['boolean 1/0']
+        parsing_exp = self.parsing_exps['boolean_10']
         expected = {
             'boolean_10': [
                 None, None, '1', '0', None
@@ -295,11 +295,11 @@ class TestGetColComponents(unittest.TestCase):
         actual = mapping_cols.get_col_components(col, parsing_exp)
         self.assertDictEqual(expected, actual)
 
-    def test_boolean_y_n(self):
+    def test_boolean_yn(self):
         col = [
             '', 'ham', 'y', 'n', 'yes'
         ]
-        parsing_exp = self.parsing_exps['boolean y/n']
+        parsing_exp = self.parsing_exps['boolean_yn']
         expected = {
             'boolean_yn': [
                 None, None, 'y', 'n', None
@@ -312,7 +312,7 @@ class TestGetColComponents(unittest.TestCase):
         col = [
             '', 'ham', 'yes', 'no', 'yes ham'
         ]
-        parsing_exp = self.parsing_exps['boolean yes/no']
+        parsing_exp = self.parsing_exps['boolean_yes_no']
         expected = {
             'boolean_yes_no': [
                 None, None, 'yes', 'no', None
