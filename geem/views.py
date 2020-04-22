@@ -14,6 +14,7 @@ from django.shortcuts import render
 from oauth2_provider.models import Application
 from django.db import connection
 from psycopg2.extras import Json as PsqlJsonAdapter
+from pint import UnitRegistry
 
 from geem.models import Package
 from geem.forms import PackageForm
@@ -21,6 +22,7 @@ from geem import utils
 from geem.serializers import ResourceSummarySerializer, ResourceDetailSerializer
 
 ROOT_PATH     = 'geem/static/geem/'
+Q_ = UnitRegistry().Quantity
 
 "Method \"POST\" not allowed."
 
@@ -103,6 +105,27 @@ def csv_str_to_matrix(request):
         csv_matrix.append(row)
 
     return Response(csv_matrix, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def convert_units(request):
+    """Convert a value to new units.
+
+    :param rest_framework.request.Request request: Front-end request
+        containing ``old_magnitude``, ``old_unit``, ``new_unit`` and
+        ``precision`` attributes
+    :returns: Response containing converted magnitude rounded to
+        specified precision
+    :rtype: rest_framework.response.Response
+    """
+    old_magnitude = request.data['old_magnitude']
+    old_unit = request.data['old_unit']
+    new_unit = request.data['new_unit']
+    precision = request.data['precision']
+
+    new_magnitude = (old_magnitude * Q_(old_unit)).to(Q_(new_unit)).magnitude
+    rounded_magnitude = round(new_magnitude, precision)
+    return Response(rounded_magnitude, status=status.HTTP_200_OK)
 
 
 class ResourceViewSet(viewsets.ModelViewSet, mixins.CreateModelMixin, mixins.DestroyModelMixin): # mixins.UpdateModelMixin, 

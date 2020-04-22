@@ -35,4 +35,5 @@ urlpatterns = [
 
     path('get_uploaded_validation_data', views.get_uploaded_validation_data),
     path('csv_str_to_matrix', views.csv_str_to_matrix),
+    path('convert_units', views.convert_units),
 ]
